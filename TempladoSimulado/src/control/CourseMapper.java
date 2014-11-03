@@ -22,6 +22,22 @@ public class CourseMapper {
 		}
 		return result;
 	}
+	
+	public static boolean removeCourse(Initialization iniClass, int classRoomCode, int initialDay, int strip){
+		boolean result = false;
+		ClassRoom tempRoom = iniClass.getRoomById(classRoomCode);
+		if(tempRoom!=null){
+			if(tempRoom.getSchedule().getClassesTime(initialDay - 1, strip - 1).getAssignedCourse() !=null && tempRoom.getSchedule().getClassesTime(initialDay + 1, strip - 1).getAssignedCourse() != null){
+				tempRoom.getSchedule().getClassesTime(initialDay - 1, strip - 1).setAssignedCourse(null);
+				tempRoom.getSchedule().getClassesTime(initialDay + 1, strip - 1).setAssignedCourse(null);
+			}else{
+				System.out.println("La franja ya está vacia");
+			}
+		}else{
+			System.out.println("Error: \t Salón inexistente");
+		}
+		return result;
+	}
 
 	public static void addRandomCourses(Initialization iniClass) {
 
@@ -92,6 +108,10 @@ public class CourseMapper {
 			}
 		}
 		return result;
+	}
+	
+	public static void lauchSA(Initialization iniClass){
+		SimulatedAnnealing.simulatedAnneling(iniClass, normalOrder, computerOrder, audithoriumOrder);
 	}
 	
 	public static void assignedOrders(int[] array) {

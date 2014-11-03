@@ -38,8 +38,8 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Curso [Código=" + courseCode + ", Nombre=" + name + "]";
-		//return "Curso [Código=" + courseCode + "]";
+		//return "Curso [Código=" + courseCode + ", Nombre=" + name + "]";
+		return "Curso [Código=" + courseCode + "]";
 	}
 
 	private String name;

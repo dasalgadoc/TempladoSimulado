@@ -67,7 +67,7 @@ public class Main {
 		scanner = new Scanner(System.in);
 		String answer = scanner.nextLine().toUpperCase();
 		if(answer.substring(0,1).equals("S")){
-			SimulatedAnnealing.simulatedAnneling();
+			CourseMapper.lauchSA(iniClass);
 		}
 	}
 	
