@@ -1,5 +1,6 @@
 package control;
 
+import java.util.Stack;
 import entity.ClassRoom;
 import entity.Course;
 import entity.Schedule;
@@ -28,17 +29,18 @@ public class CourseMapper {
 		ClassRoom tempRoom = iniClass.getRoomById(classRoomCode);
 		if(tempRoom!=null){
 			if(tempRoom.getSchedule().getClassesTime(initialDay - 1, strip - 1).getAssignedCourse() !=null && tempRoom.getSchedule().getClassesTime(initialDay + 1, strip - 1).getAssignedCourse() != null){
+				assignedCourses.add(tempRoom.getSchedule().getClassesTime(initialDay - 1, strip - 1).getAssignedCourse());
 				tempRoom.getSchedule().getClassesTime(initialDay - 1, strip - 1).setAssignedCourse(null);
 				tempRoom.getSchedule().getClassesTime(initialDay + 1, strip - 1).setAssignedCourse(null);
 			}else{
-				System.out.println("La franja ya está vacia");
+				//System.out.println("La franja ya está vacia");
 			}
 		}else{
-			System.out.println("Error: \t Salón inexistente");
+			//System.out.println("Error: \t Salón inexistente");
 		}
 		return result;
 	}
-
+	
 	public static void addRandomCourses(Initialization iniClass) {
 
 		assignedOrders(normalOrder);
@@ -110,8 +112,34 @@ public class CourseMapper {
 		return result;
 	}
 	
+	public static void addRandomSACourses(Initialization iniClass, int courseType, int[] array, Stack <Course> tempCourses, int classRoom){
+		int day; 
+		int strip;
+		
+		for (int i = 12; i < 24; i++) {
+			Course course;
+			if(!tempCourses.isEmpty() && tempCourses.peek().getCourseType()==courseType){
+				course = tempCourses.pop();
+			}else{
+				course = new Course();
+				course.setCourseType(courseType);
+				course.setCourseCode(iniClass.getCourseByID(array[i]).getCourseCode());
+				course.setName(iniClass.getCourseByID(array[i]).getName());
+			}
+			do{
+				day = (int) (Math.random() * (3) + 1);
+				strip = (int) (Math.random() * (6) + 1);
+				if(checkSchedule(iniClass, classRoom)){
+					break;
+				}
+			}while(!addCourse(iniClass,classRoom,day,strip,course));
+		}
+	}
+	
+	
+	// Deleting since arrays is not needed
 	public static void lauchSA(Initialization iniClass){
-		SimulatedAnnealing.simulatedAnneling(iniClass, normalOrder, computerOrder, audithoriumOrder);
+		SimulatedAnnealing.simulatedAnneling(iniClass);
 	}
 	
 	public static void assignedOrders(int[] array) {
@@ -140,7 +168,13 @@ public class CourseMapper {
 		return r;
 	}
 	
-	private static int[] normalOrder = new int[30];
-	private static int[] computerOrder = new int[30];
-	private static int[] audithoriumOrder = new int[30];
+	public static Stack<Course> getAssignedCourses() {
+		return assignedCourses;
+	}
+
+	public static int[] normalOrder = new int[30];
+	public static int[] computerOrder = new int[30];
+	public static int[] audithoriumOrder = new int[30];
+	
+	private static Stack<Course> assignedCourses = new Stack<Course>();
 }

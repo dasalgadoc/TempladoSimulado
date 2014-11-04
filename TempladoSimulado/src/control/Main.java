@@ -26,7 +26,7 @@ public class Main {
 		System.out.println();
 	}
 	
-	private static void printClassRooms() {
+	public static void printClassRooms() {
 		System.out.println("Código / Tipo Salón");
 		for (ClassRoom classRoom : iniClass.getRooms()) {
 			System.out.println("Código Salón: " + classRoom.getClassRoomCode() + " Tipo de Salón: "  + classRoom.getClassRoomType());
@@ -35,7 +35,7 @@ public class Main {
 		System.out.println();
 	}
 	
-	private static void printDeepClassRoom(){
+	public static void printDeepClassRoom(){
 		System.out.println("Código / Tipo Salón");
 		for (ClassRoom classRoom : iniClass.getRooms()) {
 			System.out.println("Código Salón: " + classRoom.getClassRoomCode() + " Tipo de Salón: "  + classRoom.getClassRoomType());
@@ -43,7 +43,7 @@ public class Main {
 		}
 	}
 	
-	private static void printSheduleSummary(){
+	public static void printSheduleSummary(){
 		int[] assignedCourses = new int[6];
 		assignedCourses[0] = iniClass.getRooms().get(0).getSchedule().getAssignedCourses();
 		assignedCourses[1] = iniClass.getRooms().get(1).getSchedule().getAssignedCourses();
@@ -67,7 +67,7 @@ public class Main {
 		scanner = new Scanner(System.in);
 		String answer = scanner.nextLine().toUpperCase();
 		if(answer.substring(0,1).equals("S")){
-			CourseMapper.lauchSA(iniClass);
+			SimulatedAnnealing.simulatedAnneling(iniClass);
 		}
 	}
 	
